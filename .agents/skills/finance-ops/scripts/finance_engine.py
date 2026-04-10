@@ -1,6 +1,5 @@
 import json
 import sys
-from datetime import datetime, timedelta
 from pathlib import Path
 
 
@@ -12,7 +11,9 @@ def emit(payload):
     print(json.dumps(payload, ensure_ascii=True))
 
 
-def calculate_runway(balance, expenses):
+def calculate_runway(finance_state):
+    balance = finance_state["balance"]
+    expenses = finance_state["expenses"]
     total_monthly_burn = sum(expenses.values())
 
     if total_monthly_burn <= 0:
@@ -22,8 +23,24 @@ def calculate_runway(balance, expenses):
             "warning": "No burn detected.",
         }
 
-    months_left = balance / total_monthly_burn
-    zero_date = datetime.now() + timedelta(days=int(months_left * 30.44))
+    months_left = finance_state.get("runway_months")
+    zero_cash_date = finance_state.get("zero_cash_date")
+    health_status = finance_state.get("health_status")
+
+    if months_left is None:
+        months_left = round(balance / total_monthly_burn, 1)
+
+    if not zero_cash_date:
+        zero_cash_date = ""
+
+    if not health_status:
+        health_status = (
+            "CRITICAL"
+            if months_left < 6
+            else "WARNING"
+            if months_left < 12
+            else "HEALTHY"
+        )
 
     return {
         "status": "PASS",
@@ -32,8 +49,8 @@ def calculate_runway(balance, expenses):
         "monthly_burn": total_monthly_burn,
         "breakdown": expenses,
         "runway_months": round(months_left, 1),
-        "zero_cash_date": zero_date.strftime("%Y-%m-%d"),
-        "health_status": "CRITICAL" if months_left < 6 else "WARNING" if months_left < 12 else "HEALTHY",
+        "zero_cash_date": zero_cash_date,
+        "health_status": health_status,
     }
 
 
@@ -42,6 +59,10 @@ def parse_agents_finance():
         return None
 
     balance = None
+    monthly_burn = None
+    runway_months = None
+    zero_cash_date = None
+    health_status = None
     expenses = {}
     inside_expenses = False
 
@@ -51,6 +72,22 @@ def parse_agents_finance():
 
         if stripped.startswith("current_balance_eur:"):
             balance = float(stripped.split(":", 1)[1].strip())
+            continue
+
+        if stripped.startswith("monthly_burn_eur:"):
+            monthly_burn = float(stripped.split(":", 1)[1].strip())
+            continue
+
+        if stripped.startswith("runway_months:"):
+            runway_months = float(stripped.split(":", 1)[1].strip())
+            continue
+
+        if stripped.startswith("zero_cash_date:"):
+            zero_cash_date = stripped.split(":", 1)[1].strip()
+            continue
+
+        if stripped.startswith("health_status:"):
+            health_status = stripped.split(":", 1)[1].strip()
             continue
 
         if stripped == "expenses:":
@@ -70,6 +107,10 @@ def parse_agents_finance():
 
     return {
         "balance": balance,
+        "monthly_burn": monthly_burn,
+        "runway_months": runway_months,
+        "zero_cash_date": zero_cash_date,
+        "health_status": health_status,
         "expenses": expenses,
     }
 
@@ -94,6 +135,6 @@ if __name__ == "__main__":
         if not data:
             emit({"status": "FAIL", "reason": "Data missing"})
         else:
-            emit(calculate_runway(data["balance"], data["expenses"]))
+            emit(calculate_runway(data))
     except Exception:
         emit({"status": "FAIL", "reason": "Data missing"})

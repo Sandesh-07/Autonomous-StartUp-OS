@@ -43,7 +43,9 @@ function matchValue(text, expression) {
 
 function extractSection(text, heading) {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const expression = new RegExp(`## ${escaped}\\n([\\s\\S]*?)(?=\\n## |\\n\`\`\`|$)`)
+  const expression = new RegExp(
+    `## ${escaped}\\r?\\n([\\s\\S]*?)(?=\\r?\\n## |\\r?\\n\`\`\`|$)`,
+  )
   return text.match(expression)?.[1]?.trim() ?? ''
 }
 
@@ -106,6 +108,12 @@ function parseAgents(text) {
         matchValue(text, /^  bank_account_ready:\s*(.+)$/m) === 'true',
     },
     finance: {
+      pillarStatus: matchValue(text, /^finance:\s*$[\s\S]*?^  pillar_status:\s*(.+)$/m),
+      currentBalance: asNumber(matchValue(text, /^  current_balance_eur:\s*(.+)$/m)),
+      monthlyBurn: asNumber(matchValue(text, /^  monthly_burn_eur:\s*(.+)$/m)),
+      runwayMonths: asNumber(matchValue(text, /^  runway_months:\s*(.+)$/m)),
+      zeroCashDate: matchValue(text, /^  zero_cash_date:\s*(.+)$/m),
+      healthStatus: matchValue(text, /^  health_status:\s*(.+)$/m),
       strategy: matchValue(text, /^  strategy:\s*(.+)$/m),
     },
     talent: {
@@ -142,6 +150,26 @@ function parseForecast(text) {
     scenarios: parseMarkdownTable(scenarioSection),
     julyGrantStatus: parseBulletValue(capitalSection, 'July Grant status'),
   }
+}
+
+function firstNumber(...values) {
+  for (const value of values) {
+    if (Number.isFinite(value) && value > 0) {
+      return value
+    }
+  }
+
+  return 0
+}
+
+function firstText(...values) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim()
+    }
+  }
+
+  return ''
 }
 
 function parseToolStack(text) {
@@ -446,7 +474,12 @@ export async function buildStartupOsPayload(workspaceRoot) {
     },
     finance: {
       ...forecast,
-      strategy: agents.finance.strategy,
+      currentBalance: firstNumber(forecast.currentBalance, agents.finance.currentBalance),
+      monthlyBurn: firstNumber(forecast.monthlyBurn, agents.finance.monthlyBurn),
+      runwayMonths: firstNumber(forecast.runwayMonths, agents.finance.runwayMonths),
+      zeroCashDate: firstText(forecast.zeroCashDate, agents.finance.zeroCashDate),
+      healthStatus: firstText(forecast.healthStatus, agents.finance.healthStatus),
+      strategy: firstText(agents.finance.strategy, forecast.strategy),
     },
     hiring: {
       employeeStatus: agents.talent.candidateStatus,
