@@ -1,0 +1,21 @@
+{
+  "name": "Candidate_Alpha",
+  "location": "Berlin",
+  "target_role": "Lead Robotics Engineer",
+  "summary": "Berlin-based robotics engineer with strong ROS2, C++, autonomous navigation, and AI computer vision exposure for industrial robotics deployments.",
+  "skills": [
+    "ROS2",
+    "C++",
+    "AI_Computer_Vision",
+    "Navigation_Stack",
+    "Sensor_Fusion",
+    "Industrial_Robotics"
+  ],
+  "experience_highlights": [
+    "Built ROS2-based robotics applications",
+    "Worked on autonomous navigation modules",
+    "Contributed to perception and computer vision pipelines",
+    "Supported industrial robotics integration"
+  ],
+  "source_note": "Mock sourcing profile synthesized from public Berlin robotics role signals."
+}

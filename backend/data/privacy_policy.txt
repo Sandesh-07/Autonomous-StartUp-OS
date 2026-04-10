@@ -1,0 +1,9 @@
+CyberBerlin Robotics GmbH processes customer and employee data to operate its robotics software services.
+
+We collect names, email addresses, device identifiers, support logs, billing data, and employee records.
+
+We may share data with cloud providers, analytics vendors, payroll tools, and software partners when needed to provide the service.
+
+We use appropriate safeguards to protect data.
+
+Users may contact us for privacy questions.

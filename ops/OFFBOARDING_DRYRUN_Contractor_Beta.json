@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-04-09T17:37:33",
+  "employee_id": "CID-002",
+  "employee": "Contractor_Beta",
+  "actions": [
+    {
+      "tool": "GitHub",
+      "action": "REVOKE_ACCESS",
+      "status": "PENDING_API_CALL"
+    },
+    {
+      "tool": "Personio",
+      "action": "ARCHIVE_RECORD",
+      "status": "GO_BD_LOCKED"
+    },
+    {
+      "tool": "Asset_Inventory",
+      "action": "FLAG_HARDWARE_RECOVERY",
+      "status": "NOTIFIED_CEO"
+    }
+  ],
+  "hardware_status": "RECOVERY_REQUIRED",
+  "deletion_date": "2026-05-09",
+  "retention_policy": "Retaining tax records for 10 years; deleting Slack/Email PII in 30 days."
+}

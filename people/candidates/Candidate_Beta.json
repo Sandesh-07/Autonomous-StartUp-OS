@@ -1,0 +1,19 @@
+{
+  "name": "Candidate_Beta",
+  "location": "Berlin",
+  "target_role": "Lead Robotics Engineer",
+  "summary": "Berlin-based robotics software engineer with ROS2 and Python experience, plus exposure to AI computer vision, but lighter depth in C++ and production navigation stacks.",
+  "skills": [
+    "ROS2",
+    "Python",
+    "AI_Computer_Vision",
+    "Simulation",
+    "Linux"
+  ],
+  "experience_highlights": [
+    "Worked on robotics simulation environments",
+    "Used ROS2 for prototyping",
+    "Contributed to AI vision workflows"
+  ],
+  "source_note": "Mock sourcing profile synthesized from public Berlin robotics role signals."
+}

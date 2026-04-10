@@ -1,0 +1,7 @@
+DATA PROCESSING AGREEMENT
+Between Factory Startup OS (Data Controller) and CloudHost Inc. (Data Processor).
+
+1. Scope of Processing: CloudHost Inc. will process user data solely for the purpose of providing hosting services.
+2. Security Measures: The Processor agrees to implement industry-standard encryption for data at rest and in transit.
+3. Sub-processors: The Processor may engage sub-processors, provided they notify the Controller 30 days in advance.
+4. Data Deletion: Upon termination of the contract, all user data will be deleted within 90 days.

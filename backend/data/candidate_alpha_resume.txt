@@ -1,0 +1,10 @@
+Candidate Alpha
+Senior Robotics Engineer Applicant
+
+Candidate Alpha is a senior robotics engineer with experience in autonomous mobile robotics, controls software, and production-grade robot navigation systems.
+
+Recent projects include leading ROS2 platform integrations, delivering production C++ services for robot control, and owning end-to-end Navigation_Stack tuning for indoor AMR fleets.
+
+Alpha has worked with ROS2, modern C++, Linux, sensor calibration, machine vision, SLAM-adjacent navigation workflows, and robot operations support across live deployments.
+
+The resume demonstrates direct ownership of Navigation_Stack rollout, mission planning, path optimization, and production support for robotics customers in warehouse environments.

@@ -1,0 +1,11 @@
+{
+  "entity": "CyberBerlin Robotics GmbH",
+  "shares": 25000,
+  "shareholders": [
+    {
+      "name": "Founder",
+      "equity": "100%",
+      "status": "ISSUED"
+    }
+  ]
+}
